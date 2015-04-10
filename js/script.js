@@ -9,7 +9,7 @@ var model = {
 	markerLocations: [
 		{
 			position: {lat: 37.779087, lng: -122.390364},
-	  	title: "AT&T Park",
+	  	title: "SF Giants",
 	  	keywords: ['at&t', 'park', 'sports', 'baseball']
 		},
 
@@ -31,7 +31,7 @@ var model = {
 	  },
 	  {
 	  	position: {lat: 37.784436, lng: -122.502897},
-	  	title: "Legion of Honor",
+	  	title: "San Francisco Legion of Honor",
 	  	keywords: ['legion', 'honor','green']
 	  }
 	]
@@ -91,7 +91,6 @@ function initialize() {
 				return true;
 			}
 			else {
-				
 				return false;
 			}
 		}
@@ -118,37 +117,75 @@ function initialize() {
 		//Change the marker selected
 		this.changePoint = function(title) {
 			self.currentPoint(title);
+			self.wikiLink();
 		};
 
 		//Run the keyword search
 		this.keywordSearch = function() {
-
+			//Loop through points array
 			for (var i=0; i<self.points().length; i++) {
 				var temp = false;
-
+				//Loop through keywords within points array
 				for (var k=0; k<self.points()[i].keywords.length; k++) {
 					if (self.keyword() === self.points()[i].keywords[k]) {
+						//If there is a match, set temp to true
 						temp = true;
 					}
-					else {
-						
-					}
 				}
+				//Set onOff attribute to result and set the markers on and off accordingly
 				self.points()[i].onOff(temp);
 				self.points()[i].setMarker();
 			}
 		};
 
-		//External API for streetview
+		//Streetview API call function
 		this.imgSrc = ko.computed(function() {
 			var temp = 'https://maps.googleapis.com/maps/api/streetview?size=400x400&location=' + this.currentPoint().lat + ',' + this.currentPoint().long + '&key=AIzaSyCjbTADLd-qfPiQ4j2BFWikuX4mA-O0L_4'; 
 			return temp;
 		}, this);
 
+		//Wikiurl observable
+		this.wikiurl = ko.observable('');
+
+		//Wiki api call function
+		this.wikiLink = function() {
+
+			//Set up api call format
+			var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + this.currentPoint().title + '&format=json&callback=wikiCallback';
+
+			//Initiate wiki error timeout
+		  var wikiRequestTimeout = setTimeout(function(){
+		        $wikiElem.text("failed to get wikipedia resources");
+		    },8000);
+
+		  //Ajax to get wiki api call
+		  $.ajax({
+		    url: wikiUrl,
+		    dataType: "jsonp",
+		    //jsonp: "callback",
+		    success: function ( response ) {
+		    		//Parse data for first link
+		        var articleList = response[1];
+		        articleStr = articleList[0];
+		        var url = 'http://en.wikipedia.org/wiki/' + articleStr;
+
+		        //Set wikiurl observable to link format
+		        self.wikiurl(url);
+	    	}
+		  });
+		  //Clear the timeout if it gets here
+      clearTimeout(wikiRequestTimeout); 
+
+	  }
+
+	  //Runs wikiLink() the upon initialization
+		this.wikiLink();
+
 	};
 
+	//Apply bindings to ViewModel
 	ko.applyBindings(new ViewModel());
-
 }
 
+//Wait for window to load before running initialize
 google.maps.event.addDomListener(window, 'load', initialize);
