@@ -10,6 +10,7 @@
 		<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.1.0.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjbTADLd-qfPiQ4j2BFWikuX4mA-O0L_4"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 
     <!-- Link to internal files -->
     <link rel="stylesheet" href="css/style.css">
@@ -35,11 +36,14 @@
 		  </div>
 		  <div class="row">
 		    <div class="col-md-12 text-center">
-			    <h4>Click on the text of the item you would like to see on the street view image below</h4>
+			    <h4>Click on the text of the location you would like to the the street view on and the wiki link for more information</h4>
 			    <div data-bind="with: currentPoint">
 			    	<p data-bind="text: title"></p>
 		    	</div>
 		   		<img class="streetview img-responsive" data-bind="attr: {src:imgSrc}">
+		   		<ul>
+		   			<li><a data-bind="attr: { href: wikiurl}">Wikipedia Link For More Information!</a></li>
+		   		</ul>
 		   	</div>
 		  </div>
 	  </div>
