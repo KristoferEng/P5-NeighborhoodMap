@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		
+		<title>P5-NeighborhoodMap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Link to external files -->
+		<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.1.0.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjbTADLd-qfPiQ4j2BFWikuX4mA-O0L_4"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <!-- Link to internal files -->
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js"></script>
+
+	</head>
+
+	<body>
+		
+		<div id="map-canvas"></div>
+	
+		<div class="container">
+			<div class="row searchBox">
+				<div class="col-md-6 search text-center">	
+					<p class="inline text-center"> Keyword Search <input data-bind="value: keyword"/></p><button class="inline" data-bind="click: keywordSearch">Go</button>
+				</div>
+				<div class="col-md-6">
+					<ul data-bind="foreach: points" class="text-center">
+						<input type="checkbox" data-bind="click: toggleMarker, checked: onOff"/>
+		      	<li data-bind="click: $parent.changePoint, text: title"></li>
+		    	</ul>
+		    </div>
+		  </div>
+		  <div class="row">
+		    <div class="col-md-12 text-center">
+			    <h4>Click on the text of the item you would like to see on the street view image below</h4>
+			    <div data-bind="with: currentPoint">
+			    	<p data-bind="text: title"></p>
+		    	</div>
+		   		<img class="streetview img-responsive" data-bind="attr: {src:imgSrc}">
+		   	</div>
+		  </div>
+	  </div>
+
+	</body>
+
+</html>
+
