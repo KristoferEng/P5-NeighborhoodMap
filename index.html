@@ -25,7 +25,9 @@
 		<div class="container">
 			<div class="row searchBox">
 				<div class="col-md-6 search text-center">	
-					<p class="inline text-center"> Keyword Search <input data-bind="value: keyword"/></p><button class="inline" data-bind="click: keywordSearch">Go</button>
+					<form data-bind="submit: keywordSearch">
+					Keyword Search <input data-bind="value: keyword">
+					<button type="submit">Go</button>
 				</div>
 				<div class="col-md-6">
 					<ul data-bind="foreach: points" class="text-center">
