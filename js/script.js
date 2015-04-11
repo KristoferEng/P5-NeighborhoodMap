@@ -65,12 +65,12 @@ function initialize() {
 
 
 		this.toggleBounce = function() {
-			if (self.marker.getAnimation() != null) {
+			if (self.marker.getAnimation() !== null) {
 				self.marker.setAnimation(null);
 			} else {
 			    self.marker.setAnimation(google.maps.Animation.BOUNCE);
-			};
-		}
+			}
+		};
 
 		google.maps.event.addListener(this.marker, 'click', this.toggleBounce);
 
@@ -89,8 +89,8 @@ function initialize() {
 				});
 				google.maps.event.addListener(this.marker, 'click', this.toggleBounce);
 				return true;
-			};
-		}
+			}
+		};
 
 		//Sets the marker when keyword searched
 		this.setMarker = function() {
@@ -108,16 +108,16 @@ function initialize() {
 			}
 			else {
 				return false;
-			};
-		}
-	}
+			}
+		};
+	};
 
 	var ViewModel = function() {
 		//Help inside nested functions
 		var self = this;
 
 		//Create the observable array of markers
-		this.points = ko.observableArray([])
+		this.points = ko.observableArray([]);
 
 		//Place each marker into the array
 		model.markerLocations.forEach(function(markerItem){
@@ -171,7 +171,7 @@ function initialize() {
 
 			//Initiate wiki error timeout
 		  var wikiRequestTimeout = setTimeout(function(){
-		        $wikiElem.text("failed to get wikipedia resources");
+		        this.wikiLink("Failed to get wikipedia resources");
 		    },8000);
 
 		  //Ajax to get wiki api call
@@ -182,7 +182,7 @@ function initialize() {
 		    success: function ( response ) {
 		    		//Parse data for first link
 		        var articleList = response[1];
-		        articleStr = articleList[0];
+		        var articleStr = articleList[0];
 		        var url = 'http://en.wikipedia.org/wiki/' + articleStr;
 
 		        //Set wikiurl observable to link format
@@ -192,7 +192,7 @@ function initialize() {
 		  //Clear the timeout if it gets here
       clearTimeout(wikiRequestTimeout); 
 
-	  }
+	  };
 
 	  //Runs wikiLink() the upon initialization
 		this.wikiLink();
