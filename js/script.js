@@ -59,8 +59,20 @@ function initialize() {
 		this.marker = new google.maps.Marker({
 			position: {lat: this.lat, lng:this.long},
 			title: this.title,
+			draggable: true,	
 			map: map
 		});
+
+
+		this.toggleBounce = function() {
+			if (self.marker.getAnimation() != null) {
+				self.marker.setAnimation(null);
+			} else {
+			    self.marker.setAnimation(google.maps.Animation.BOUNCE);
+			};
+		}
+
+		google.maps.event.addListener(this.marker, 'click', this.toggleBounce);
 
 		//Toggles marker when keyword searched
 		this.toggleMarker = function() {
@@ -72,10 +84,12 @@ function initialize() {
 				self.marker = new google.maps.Marker({
 					position: {lat: this.lat, lng:this.long},
 					title: this.title,
+					draggable: true,	
 					map: map
-				})
+				});
+				google.maps.event.addListener(this.marker, 'click', this.toggleBounce);
 				return true;
-			}
+			};
 		}
 
 		//Sets the marker when keyword searched
@@ -86,13 +100,15 @@ function initialize() {
 				self.marker = new google.maps.Marker({
 					position: {lat: this.lat, lng:this.long},
 					title: this.title,
+					draggable: true,	
 					map: map				
-				})
+				});
+				google.maps.event.addListener(this.marker, 'click', this.toggleBounce);
 				return true;
 			}
 			else {
 				return false;
-			}
+			};
 		}
 	}
 
